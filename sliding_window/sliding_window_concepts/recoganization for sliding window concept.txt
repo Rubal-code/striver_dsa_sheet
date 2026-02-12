@@ -1,0 +1,26 @@
+🎯 How to Identify Sliding Window Problem
+
+Look for keywords:
+
+Subarray / Substring
+
+Longest / Shortest
+
+At most K
+
+Exactly K
+
+Maximum / Minimum
+
+Contiguous elements
+
+If you see these → Think Sliding Window.
+
+
+
+
+every sliding window follows this structure:
+1. Expand window (j++)
+2. Check condition
+3. If invalid → shrink window (i++)
+4. Update answer

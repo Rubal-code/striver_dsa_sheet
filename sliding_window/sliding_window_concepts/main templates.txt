@@ -1,0 +1,134 @@
+🔹 1️⃣ Fixed Size Sliding Window (Window Size = K)
+
+👉 Used when:
+
+“Find maximum/minimum/sum of subarray of size k”
+
+“First negative in every window of size k”
+
+“Maximum sum of size k”
+
+🧠 Template (Java)
+public int slidingWindowFixed(int[] arr, int k) {
+    int n = arr.length;
+
+    int i = 0;     // left pointer
+    int j = 0;     // right pointer
+    int sum = 0;   // example variable (depends on problem)
+    int ans = Integer.MIN_VALUE;
+
+    while (j < n) {
+
+        // 1. Add current element into window
+        sum += arr[j];
+
+        // 2. When window size < k → just expand
+        if (j - i + 1 < k) {
+            j++;
+        }
+
+        // 3. When window size == k → calculate answer
+        else if (j - i + 1 == k) {
+
+            ans = Math.max(ans, sum);  // calculation step
+
+            // 4. Remove left element before sliding
+            sum -= arr[i];
+
+            i++;   // slide window
+            j++;
+        }
+    }
+
+    return ans;
+}
+
+🔹 2️⃣ Variable Size Sliding Window (Longest Subarray Type)
+
+👉 Used when:
+
+“Longest subarray with sum ≤ k”
+
+“Longest substring without repeating characters”
+
+“At most k distinct characters”
+
+“Smallest subarray with sum ≥ k”
+
+🧠 General Template
+public int slidingWindowVariable(int[] arr, int k) {
+    int n = arr.length;
+
+    int i = 0;
+    int j = 0;
+    int sum = 0;
+    int ans = 0;
+
+    while (j < n) {
+
+        // 1. Expand window
+        sum += arr[j];
+
+        // 2. If condition is invalid → shrink window
+        while (sum > k) {    // condition depends on problem
+            sum -= arr[i];
+            i++;
+        }
+
+        // 3. Update answer
+        ans = Math.max(ans, j - i + 1);
+
+        j++;
+    }
+
+    return ans;
+}
+
+🔹 3️⃣ Sliding Window with HashMap (Strings / Distinct Elements)
+
+👉 Used when:
+
+Longest substring without repeating characters
+
+At most K distinct characters
+
+Anagram problems
+
+Count distinct elements
+
+🧠 Template for String Problems
+public int slidingWindowString(String s) {
+
+    int i = 0;
+    int j = 0;
+    int n = s.length();
+    int ans = 0;
+
+    HashMap<Character, Integer> map = new HashMap<>();
+
+    while (j < n) {
+
+        char ch = s.charAt(j);
+
+        // Add current character
+        map.put(ch, map.getOrDefault(ch, 0) + 1);
+
+        // Shrink window if invalid
+        while (map.get(ch) > 1) {  // condition changes per problem
+            char leftChar = s.charAt(i);
+            map.put(leftChar, map.get(leftChar) - 1);
+
+            if (map.get(leftChar) == 0)
+                map.remove(leftChar);
+
+            i++;
+        }
+
+        // Update answer
+        ans = Math.max(ans, j - i + 1);
+
+        j++;
+    }
+
+    return ans;
+}
